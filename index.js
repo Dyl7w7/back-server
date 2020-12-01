@@ -5,6 +5,7 @@ const bodyParser = require ('body-parser');
 
 //Rutas
 const routeUser = require('./routes/user');
+//const routeArtist = require('./routes/artist');
 
 const app = express();
 
@@ -12,7 +13,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+//Use routes
 app.use('/api/user', routeUser);
+//app.use('/api/artist', routeArtist );
 
 //Base de datos
 dbConnection();
