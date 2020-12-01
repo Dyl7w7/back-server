@@ -9,4 +9,10 @@ const userSchema = Schema({
     image: {type: String, required: false}
 });
 
+userSchema.method('toJSON', function(){
+    const { __v, _id,  ...object } = this.toObject();
+    object.UserID = _id;
+    return object;
+});
+
 module.exports = model('User', userSchema);

@@ -1,40 +1,56 @@
-const User = require('../models/user')
+const User = require('../models/user');
+const bcrypt = require('bcryptjs');
 
-const getUsers = (req, res) => {
+const getUsers = async (req, res) => {
 
-
-    User.find((err, users) => {
-        if(!err) {
-            return res.status(200)
+    try {
+        const users = await User.find();
+        return res.status(200)
             .json({
                 users
             });
-        } else {
-            return res.status(200)
+    } catch (error) {
+        return res.status(400)
             .json({
                 msg: 'Error al consultar los usuarios.'
             });
-        } 
-    });
+    }
 };
 
-const saveUser = (req, res) => {
+
+const saveUser = async (req, res) => {
+
+
     const body = req.body;
     const user = new User(body);
     user.role = 'USER_ROLE';
     user.image = '';
 
-    user.save((err, userSaved) => {
-        if (!err) {
-            res.json({
-                user: userSaved
+    try {
+
+
+        //Validar Email
+        const emailVal = await User.findOne({ email: body.email});
+        if (emailVal) {
+            return res.status(400).json({
+                msg: 'El correo ya está registrado'
             });
-        } else {
-            res.status(400).json({
-                msg: 'Error al guardar el usuario'
-            });
-        }
-    });
+        };
+
+        //Encriptar Password
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(body.password, salt);
+
+        //Guarda User
+        const userSaved = await user.save();
+        res.json({
+            user: userSaved
+        });
+    } catch (error) {
+        res.status(400).json({
+            msg: 'Error al guardar el usuario'
+        });
+    }
 };
 
 module.exports = {
