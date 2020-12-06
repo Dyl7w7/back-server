@@ -4,12 +4,12 @@ const artistSchema = Schema({
     name: {type: String, required: true},
     description: {type: String, required: false},
     image: {type: String, required: false},
-    user: {type: Schema.Types.ObjectId, ref: 'User'},
+    //user: {type: Schema.Types.ObjectId, ref: 'User', required: true},
 });
 
 artistSchema.method('toJSON', function(){
     const { __v, _id, ...object } = this.toObject();
-    object.UserID = _id;
+    object.ArtistID = _id;
     return object;
 });
 

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dbConnection = async () => {
 
     try {
-        await mongoose.connect('mongodb://localhost:27017/mymusify', {
+        await mongoose.connect(process.env.CONNECTION_DB, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
