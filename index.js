@@ -8,6 +8,7 @@ require('dotenv').config();
 const routeUser = require('./routes/user');
 const routeArtist = require('./routes/artist');
 const routeAlbum = require('./routes/album');
+const routeSong = require('./routes/song');
 const routeAuth = require('./routes/auth');
 
 
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use('/api/user', routeUser);
 app.use('/api/artist', routeArtist);
 app.use('/api/album', routeAlbum);
+app.use('/api/song', routeSong);
 app.use('/api/login', routeAuth);
 
 
